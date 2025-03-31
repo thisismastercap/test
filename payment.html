@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة الدفع - مسيال</title>
+    <style>
+        :root {
+            --primary-color: #800080;
+            --secondary-color: #f8f8f8;
+            --text-color: #333;
+            --white: #fff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 1rem;
+            font-size: 1.3rem;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .back-btn {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--white);
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+        
+        .back-btn:hover {
+            background-color: var(--white);
+            color: var(--primary-color);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin: 2rem auto;
+            flex: 1;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .order-summary {
+            background: var(--secondary-color);
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .order-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #ccc;
+        }
+        
+        .order-total {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .shipping-container {
+            background: var(--secondary-color);
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: right;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-container {
+            background: var(--secondary-color);
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: right;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-group textarea {
+            font-family: 'Arial', sans-serif;
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .form-group select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: left 0.7rem center;
+            background-size: 1rem;
+            padding-left: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(128, 0, 128, 0.2);
+        }
+        
+        .form-group .error {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+        
+        button {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background-color: #5a005a;
+            transform: translateY(-2px);
+        }
+        
+        .secure {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .payment-methods img {
+            height: 30px;
+            filter: grayscale(0%);
+            opacity: 1;
+            transition: var(--transition);
+        }
+        
+        .security-badge {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .security-badge img {
+            height: 40px;
+        }
+        
+        .security-text {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        
+        .security-text strong {
+            color: var(--primary-color);
+        }
+        input[type="tel"] {
+            text-align: right;
+            direction: ltr;
+        }
+
+        input[type="tel"]::placeholder {
+            text-align: right;
+            direction: rtl;
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+                width: 95%;
+            }
+            
+            header {
+                font-size: 1.1rem;
+                padding: 0.8rem;
+            }
+            
+            .back-btn {
+                font-size: 0.9rem;
+                padding: 0.3rem 0.6rem;
+            }
+            
+            .payment-methods img {
+                height: 25px;
+            }
+            
+            .security-badge img {
+                height: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="back-btn">العودة للرئيسية</a>
+        متجر مسيال - الدفع الآمن
+    </header>
+    
+    <div class="container">
+        <h2>إتمام عملية الدفع</h2>
+        
+        <div class="order-summary">
+            <div class="order-title">ملخص الطلب</div>
+            <div id="order-items">
+                <!-- سيتم ملء هذا الجزء ديناميكيًا -->
+            </div>
+            <div class="order-item">
+                <span>الضريبة</span>
+                <span>0 ر.ع</span>
+            </div>
+            <div class="order-item">
+                <span>رسوم التوصيل</span>
+                <span>0 ر.ع</span>
+            </div>
+            <div class="order-total">
+                <span>المجموع الكلي</span>
+                <span id="total-price">0 ر.ع</span>
+            </div>
+        </div>
+        
+        <!-- قسم معلومات التوصيل المحدث -->
+        <div class="shipping-container">
+            <div class="order-title">معلومات العميل والتوصيل</div>
+            <form id="shipping-form">
+                <div class="form-group">
+                    <label for="full_name">الاسم الكامل</label>
+                    <input type="text" id="full_name" name="full_name" placeholder="ادخل الاسم الكامل كما في البطاقة" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone_number">رقم الهاتف</label>
+                    <input type="tel" id="phone_number" name="phone_number" placeholder="ادخل رقم الهاتف للتواصل" required>
+                    <div class="error" id="phone_error">يجب إدخال رقم هاتف صحيح (8-15 رقم)</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="city">المحافظة</label>
+                    <select id="city" name="city" required>
+                        <option value="">اختر المحافظة</option>
+                        <option value="مسقط">مسقط</option>
+                        <option value="ظفار">ظفار</option>
+                        <option value="مسندم">مسندم</option>
+                        <option value="البريمي">البريمي</option>
+                        <option value="الوسطى">الوسطى</option>
+                        <option value="الظاهرة">الظاهرة</option>
+                        <option value="الداخلية">الداخلية</option>
+                        <option value="جنوب الشرقية">جنوب الشرقية</option>
+                        <option value="شمال الشرقية">شمال الشرقية</option>
+                        <option value="الباطنة">الباطنة</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="region">المنطقة/الولاية</label>
+                    <input type="text" id="region" name="region" placeholder="ادخل اسم المنطقة أو الولاية" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="postal_code">الرمز البريدي</label>
+                    <input type="text" id="postal_code" name="postal_code" placeholder="ادخل الرمز البريدي" required>
+                    <div class="error" id="postal_error">يجب أن يتكون الرمز البريدي من أرقام فقط</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="shipping_address">العنوان التفصيلي</label>
+                    <textarea id="shipping_address" name="shipping_address" rows="3" placeholder="الشارع، رقم المنزل، اسم العمارة، الطابق" required></textarea>
+                </div>
+            </form>
+        </div>
+        
+        <div class="payment-methods">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="Mastercard">
+        </div>
+        
+        <div class="card-container">
+            <div class="order-title">بيانات الدفع</div>
+            <form id="payment-form">
+                <div class="form-group">
+                    <label for="card_name">اسم صاحب البطاقة</label>
+                    <input type="text" id="card_name" name="card_name" placeholder="ادخل الاسم كما هو مدون على البطاقة" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="card_number">رقم البطاقة</label>
+                    <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" required maxlength="19">
+                    <div class="error" id="card_number_error">رقم البطاقة يجب أن يبدأ بـ 4 (فيزا) أو 5 (ماستركارد)</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="expiry_date">تاريخ الانتهاء</label>
+                    <input type="text" id="expiry_date" name="expiry_date" placeholder="MM/YY" required maxlength="5">
+                    <div class="error" id="expiry_date_error">تاريخ الانتهاء غير صالح (الشهر 01-12 والسنة لا تقل عن السنة الحالية)</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cvv">رمز الأمان (CVV)</label>
+                    <input type="text" id="cvv" name="cvv" placeholder="123" required maxlength="3">
+                </div>
+                
+                <button type="submit">إتمام الدفع</button>
+            </form>
+        </div>
+        
+        <div class="security-badge">
+            <img src="verified-by-visa.png" alt="Secure Payment">
+            <div class="security-text">
+                <strong>دفع آمن 100%</strong><br>
+                جميع معلومات الدفع مشفرة باستخدام تقنية SSL المتقدمة
+            </div>
+        </div>
+        
+        <div class="secure">
+            <span>🔒</span> نستخدم أحدث تقنيات الحماية لتأمين بياناتك
+        </div>
+    </div>
+    
+    <footer>
+        © <span id="year"></span> مسيال - جميع الحقوق محفوظة
+    </footer>
+
+    <script>
+        // إضافة السنة الحالية تلقائياً
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // جلب بيانات السلة من localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const orderItemsContainer = document.getElementById('order-items');
+            const orderTotal = document.getElementById('total-price');
+            
+            if (cart.length > 0) {
+                let total = 0;
+                
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    
+                    orderItemsContainer.insertAdjacentHTML('beforeend', `
+                        <div class="order-item">
+                            <span>${item.name} × ${item.quantity}</span>
+                            <span>${itemTotal.toFixed(2)} ر.ع</span>
+                        </div>
+                    `);
+                });
+                
+                orderTotal.textContent = total.toFixed(2) + ' ر.ع';
+            } else {
+                orderItemsContainer.insertAdjacentHTML('beforeend', `
+                    <div class="order-item">
+                        <span>لا توجد منتجات في السلة</span>
+                        <span>0 ر.ع</span>
+                    </div>
+                `);
+            }
+        });
+        
+        // تحسين إدخال رقم البطاقة
+        document.getElementById('card_number').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            if (value.length > 16) value = value.slice(0, 16);
+            let formatted = value.replace(/(\d{4})/g, '$1 ').trim();
+            e.target.value = formatted;
+            
+            const cardNumberError = document.getElementById('card_number_error');
+            const visaPattern = /^4/;
+            const mastercardPattern = /^5[1-5]/;
+            if (value.length > 0 && !(visaPattern.test(value) || mastercardPattern.test(value))) {
+                cardNumberError.style.display = 'block';
+            } else {
+                cardNumberError.style.display = 'none';
+            }
+            
+            // تحديد نوع البطاقة
+            const visaImg = document.querySelector('.payment-methods img[alt="Visa"]');
+            const mastercardImg = document.querySelector('.payment-methods img[alt="Mastercard"]');
+            if (visaPattern.test(value)) {
+                visaImg.style.opacity = '1';
+                visaImg.style.filter = 'grayscale(0%)';
+                mastercardImg.style.opacity = '0.5';
+                mastercardImg.style.filter = 'grayscale(100%)';
+            } else if (mastercardPattern.test(value)) {
+                mastercardImg.style.opacity = '1';
+                mastercardImg.style.filter = 'grayscale(0%)';
+                visaImg.style.opacity = '0.5';
+                visaImg.style.filter = 'grayscale(100%)';
+            } else {
+                visaImg.style.opacity = '1';
+                visaImg.style.filter = 'grayscale(0%)';
+                mastercardImg.style.opacity = '1';
+                mastercardImg.style.filter = 'grayscale(0%)';
+            }
+        });
+        
+        // تحسين إدخال تاريخ الانتهاء مع التحقق
+        document.getElementById('expiry_date').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^0-9]/g, '');
+            if (value.length > 4) value = value.slice(0, 4);
+            if (value.length > 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2);
+            }
+            e.target.value = value;
+            
+            const expiryDateError = document.getElementById('expiry_date_error');
+            if (value.length === 5) {
+                const month = parseInt(value.slice(0, 2));
+                const year = parseInt(value.slice(3, 5));
+                const currentYear = new Date().getFullYear() % 100;
+                const currentMonth = new Date().getMonth() + 1;
+                
+                if (month < 1 || month > 12 || 
+                    year < currentYear || 
+                    (year === currentYear && month < currentMonth)) {
+                    expiryDateError.style.display = 'block';
+                } else {
+                    expiryDateError.style.display = 'none';
+                }
+            } else {
+                expiryDateError.style.display = 'none';
+            }
+        });
+        
+        // تحسين إدخال CVV
+        document.getElementById('cvv').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^0-9]/g, '');
+            if (value.length > 3) value = value.slice(0, 3);
+            e.target.value = value;
+        });
+        
+        // التحقق من رقم الهاتف
+        document.getElementById('phone_number').addEventListener('input', function(e) {
+            const phoneError = document.getElementById('phone_error');
+            const phoneValue = e.target.value.replace(/[^0-9]/g, '');
+            
+            if (phoneValue.length < 8 || phoneValue.length > 15) {
+                phoneError.style.display = 'block';
+            } else {
+                phoneError.style.display = 'none';
+            }
+        });
+        
+        // التحقق من الرمز البريدي
+        document.getElementById('postal_code').addEventListener('input', function(e) {
+            const postalError = document.getElementById('postal_error');
+            const value = e.target.value.replace(/[^0-9]/g, '');
+            
+            if (value.length > 0 && !/^\d+$/.test(value)) {
+                postalError.style.display = 'block';
+            } else {
+                postalError.style.display = 'none';
+                e.target.value = value;
+            }
+        });
+        
+        // التحكم في الـ submit
+        document.getElementById('payment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // التحقق من معلومات التوصيل
+            const fullName = document.getElementById('full_name').value;
+            const phoneNumber = document.getElementById('phone_number').value;
+            const city = document.getElementById('city').value;
+            const region = document.getElementById('region').value;
+            const postalCode = document.getElementById('postal_code').value;
+            const shippingAddress = document.getElementById('shipping_address').value;
+            
+            const phoneError = document.getElementById('phone_error').style.display === 'block';
+            const postalError = document.getElementById('postal_error').style.display === 'block';
+            
+            if (!fullName || !phoneNumber || !city || !region || !postalCode || !shippingAddress) {
+                alert('يرجى ملء جميع حقول معلومات التوصيل');
+                return;
+            }
+            
+            if (phoneError || postalError) {
+                alert('يرجى تصحيح الأخطاء في بيانات التوصيل قبل المتابعة');
+                return;
+            }
+            
+            // التحقق من معلومات الدفع
+            const cardName = document.getElementById('card_name').value;
+            const cardNumber = document.getElementById('card_number').value.replace(/\s/g, '');
+            const expiryDate = document.getElementById('expiry_date').value;
+            const cvv = document.getElementById('cvv').value;
+            
+            const cardNumberError = document.getElementById('card_number_error').style.display === 'block';
+            const expiryDateError = document.getElementById('expiry_date_error').style.display === 'block';
+            
+            if (!cardName || !cardNumber || !expiryDate || !cvv) {
+                alert('يرجى ملء جميع حقول الدفع');
+                return;
+            }
+            
+            if (cardNumberError || expiryDateError) {
+                alert('يرجى تصحيح الأخطاء في بيانات البطاقة قبل المتابعة');
+                return;
+            }
+            
+            // تخزين بيانات التوصيل والدفع في localStorage
+            const orderData = {
+                customer: {
+                    full_name: fullName,
+                    phone: phoneNumber
+                },
+                shipping: {
+                    city: city,
+                    region: region,
+                    postal_code: postalCode,
+                    address: shippingAddress
+                },
+                payment: {
+                    card_name: cardName,
+                    card_number: cardNumber,
+                    expiry_date: expiryDate,
+                    cvv: cvv
+                },
+                cart: JSON.parse(localStorage.getItem('cart')) || [],
+                total: document.getElementById('total-price').textContent,
+                date: new Date().toISOString()
+            };
+            
+            localStorage.setItem('orderData', JSON.stringify(orderData));
+            
+            // الانتقال لصفحة التحقق
+            window.location.href = 'verify.html';
+        });
+		document.getElementById('payment-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // جمع بيانات الطلب
+    const orderData = {
+        customer: {
+            full_name: document.getElementById('full_name').value,
+            phone: document.getElementById('phone_number').value,
+            email: document.getElementById('email').value || ''
+        },
+        shipping: {
+            city: document.getElementById('city').value,
+            region: document.getElementById('region').value,
+            postal_code: document.getElementById('postal_code').value,
+            address: document.getElementById('shipping_address').value
+        },
+        payment: {
+            card_name: document.getElementById('card_name').value,
+            card_number: document.getElementById('card_number').value.replace(/\s/g, '')
+        },
+        cart: JSON.parse(localStorage.getItem('cart')) || [],
+        total: document.getElementById('total-price').textContent
+    };
+    
+    // إرسال البيانات إلى السيرفر
+    fetch('process_order.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(`تم تقديم طلبك بنجاح! رقم الطلب: ${data.order_id}`);
+            localStorage.removeItem('cart');
+            window.location.href = 'thank_you.html?id=' + data.order_id;
+        } else {
+            alert('حدث خطأ: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('حدث خطأ أثناء معالجة الطلب');
+    });
+});
+		
+		
+    </script>
+</body>
+</html>
